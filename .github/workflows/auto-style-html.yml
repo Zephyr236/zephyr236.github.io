@@ -10,12 +10,18 @@ on:
     paths:
       - '**.html'
 
+permissions:
+  contents: write
+
 jobs:
   inject-standalone-class:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - name: Inject standalone class to body tags
         run: |
