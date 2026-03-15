@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>{{ page.title }}</title>
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<style>
+    body {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    /* Typora 表格样式 */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 20px 0;
+    }
+    table th, table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    table th {
+        background-color: #f5efe9;
+    }
+    /* Typora 图片样式 */
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 20px auto;
+    }
+    /* Typora 列表样式 */
+    ol, ul {
+        padding-left: 25px;
+    }
+    li {
+        margin: 8px 0;
+    }
+    /* 居中表格 */
+    center table {
+        display: inline-block;
+    }
+    center {
+        text-align: center;
+        margin: 20px 0;
+    }
+</style>
+</head>
+<body>
+    <header>
+        <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
+        <nav>
+            <a href="{{ '/' | relative_url }}">Home</a>
+            <a href="{{ '/about' | relative_url }}">About</a>
+        </nav>
+    </header>
+
+    <main>
+    {{ content }}
+    </main>
+
+    <footer>
+        <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
+    </footer>
+</body>
+</html>

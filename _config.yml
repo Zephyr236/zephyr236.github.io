@@ -10,6 +10,11 @@ markdown: kramdown
 highlighter: rouge
 permalink: /:title/
 
+# Include HTML files in build
+include:
+  - .github
+  - '*.html'
+
 # Gems
 plugins:
   - jekyll-feed

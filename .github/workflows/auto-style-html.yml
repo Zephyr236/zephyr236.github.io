@@ -1,0 +1,48 @@
+name: Auto Style HTML Articles
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.html'
+
+jobs:
+  inject-standalone-class:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Inject standalone class to body tags
+        run: |
+          # Find all HTML files (excluding _layouts, _includes, and node_modules)
+          find . -name "*.html" -not -path "./.git/*" -not -path "./_layouts/*" -not -path "./_includes/*" | while read -r file; do
+            # Check if file already has class="standalone" or class='standalone'
+            if grep -q 'class=["\']standalone["\']' "$file"; then
+              echo "Skipping $file (already has standalone class)"
+              continue
+            fi
+
+            # Check if file has <body> tag
+            if grep -q '<body' "$file"; then
+              # Add class="standalone" to body tag
+              # Handle <body>, <body >, <body something>, etc.
+              sed -i 's/<body \(.*\)>/<body \1 class="standalone">/g' "$file"
+              sed -i 's/<body>/<body class="standalone">/g' "$file"
+              echo "Added standalone class to $file"
+            else
+              echo "No <body> tag found in $file"
+            fi
+          done
+
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --staged --quiet || git commit -m "Auto: Add standalone class to HTML articles"
+          git push

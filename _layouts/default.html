@@ -21,6 +21,56 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+    <!-- Auto-inject styles for standalone HTML articles -->
+    <script>
+    (function() {
+        // Check if this is a standalone HTML article (not using Jekyll layout)
+        var body = document.body;
+        if (body.classList.contains('standalone')) {
+            var style = document.createElement('link');
+            style.rel = 'stylesheet';
+            style.href = '{{ "/assets/css/style.css" | relative_url }}';
+            document.head.appendChild(style);
+
+            // Add minimal wrapper styles
+            var wrapper = document.createElement('div');
+            wrapper.style.maxWidth = '800px';
+            wrapper.style.margin = '0 auto';
+            wrapper.style.padding = '40px 20px';
+            wrapper.style.background = 'linear-gradient(135deg, #fdfbf7 0%, #faf5f0 100%)';
+            wrapper.style.minHeight = '100vh';
+
+            // Move body content into wrapper
+            while (body.firstChild) {
+                wrapper.appendChild(body.firstChild);
+            }
+            body.appendChild(wrapper);
+
+            // Add header
+            var header = document.createElement('header');
+            header.style.textAlign = 'center';
+            header.style.padding = '30px 0';
+            header.innerHTML = '<a href="{{ "/" | relative_url }}" class="site-title" style="font-family: Lora, Georgia, serif; font-size: 2.2em; color: #5d5d5d; text-decoration: none; letter-spacing: 2px;">{{ site.title }}</a>' +
+                '<nav style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">' +
+                '<a href="{{ "/" | relative_url }}">Home</a>' +
+                '<a href="{{ "/about" | relative_url }}">About</a>' +
+                '</nav>';
+            wrapper.insertBefore(header, wrapper.firstChild);
+
+            // Add footer
+            var footer = document.createElement('footer');
+            footer.style.marginTop = '60px';
+            footer.style.paddingTop = '30px';
+            footer.style.borderTop = '1px solid #e8e0d8';
+            footer.style.textAlign = 'center';
+            footer.style.color = '#a0908d';
+            footer.style.fontSize = '0.85em';
+            footer.innerHTML = '<p>&copy; {{ site.time | date: "%Y" }} {{ site.author }}. All rights reserved.</p>';
+            wrapper.appendChild(footer);
+        }
+    })();
+    </script>
 </head>
 <body>
     <header>
