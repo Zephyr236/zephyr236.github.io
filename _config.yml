@@ -1,0 +1,39 @@
+title: My Blog
+description: A personal blog built with Jekyll
+author: Zephyr
+email: your-email@example.com
+baseurl: ""
+url: "https://Zephyr236.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+
+# Gems
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Exclude
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Pagination (if needed)
+paginate: 10
+paginate_path: "/page:num/"
+
+# Frontmatter defaults
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      author: Zephyr
