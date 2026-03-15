@@ -50,13 +50,31 @@ if os.path.exists(articles_dir):
             with open(filepath, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            # Extract title
+            # Extract title and date from filename (format: YYYY-MM-DD-title.html)
+            # Or from the <title> tag if not in filename format
+            date_match = re.search(r'^(\d{4}-\d{2}-\d{2})-(.+)\.html$', filename)
+            if date_match:
+                date_str = date_match.group(1)
+                # Convert YYYY-MM-DD to "March 14, 2026" format
+                from datetime import datetime
+                try:
+                    date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+                    date_formatted = date_obj.strftime('%B %d, %Y')
+                except:
+                    date_formatted = date_str
+                title_from_file = date_match.group(2).replace('-', ' ')
+            else:
+                date_formatted = ''
+                title_from_file = os.path.splitext(filename)[0]
+
+            # Use <title> tag if available, otherwise use filename
             title_match = re.search(r"<title>(.*?)</title>", content)
-            title = title_match.group(1) if title_match else os.path.splitext(filename)[0]
+            title = title_match.group(1) if title_match else title_from_file
 
             articles.append({
                 "title": title,
-                "url": articles_dir + "/" + filename
+                "url": articles_dir + "/" + filename,
+                "date": date_formatted
             })
 
             # Remove existing custom CSS and add fresh one
@@ -100,7 +118,10 @@ if len(articles) == 0:
 else:
     items = []
     for article in articles:
-        items.append(f'<li><a href="{article["url"]}">{article["title"]}</a></li>')
+        if article["date"]:
+            items.append(f'<li><span class="post-date">{article["date"]}</span><a href="{article["url"]}">{article["title"]}</a></li>')
+        else:
+            items.append(f'<li><a href="{article["url"]}">{article["title"]}</a></li>')
     articles_html = '\n            '.join(items)
 
 # Replace placeholder
