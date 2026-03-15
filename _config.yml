@@ -15,6 +15,10 @@ include:
   - .github
   - '*.html'
 
+# Keep static HTML files in output
+keep_files:
+  - '*.html'
+
 # Gems
 plugins:
   - jekyll-feed
