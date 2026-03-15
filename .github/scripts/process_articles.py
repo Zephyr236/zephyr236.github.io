@@ -3,7 +3,8 @@ import re
 import sys
 
 articles_dir = "articles"
-index_file = "index.html"
+template_file = "index.template.html"
+output_file = "index.html"
 
 # CSS style to add to each article
 css_style = '''<link rel="stylesheet" href="assets/css/style.css">
@@ -49,42 +50,28 @@ if os.path.exists(articles_dir):
 
 print(f"Found {len(articles)} articles")
 
-# Update index.html
-if not os.path.exists(index_file):
-    print("index.html not found")
+# Read template
+if not os.path.exists(template_file):
+    print(f"Template file {template_file} not found")
     sys.exit(1)
 
-with open(index_file, "r", encoding="utf-8") as f:
-    lines = f.readlines()
+with open(template_file, "r", encoding="utf-8") as f:
+    template = f.read()
 
-# Find the line with id="typora-articles"
-start_idx = -1
-end_idx = -1
-for i, line in enumerate(lines):
-    if 'id="typora-articles"' in line:
-        start_idx = i
-    if start_idx > 0 and '</ul>' in line and i > start_idx:
-        end_idx = i
-        break
-
-print(f"Found start_idx={start_idx}, end_idx={end_idx}")
-
-if start_idx > 0 and end_idx > 0:
-    # Build new content
-    new_lines = lines[:start_idx + 1]  # Keep everything up to and including <ul>
-
-    if len(articles) == 0:
-        new_lines.append('            <li>No articles yet.</li>\n')
-    else:
-        for article in articles:
-            new_lines.append(f'            <li><a href="{article["url"]}">{article["title"]}</a></li>\n')
-
-    new_lines.append('        </ul>\n')  # Add closing tag
-    new_lines.extend(lines[end_idx + 1:])  # Add rest of file
-
-    with open(index_file, "w", encoding="utf-8") as f:
-        f.writelines(new_lines)
-
-    print(f"Updated index.html with {len(articles)} articles")
+# Build articles HTML
+if len(articles) == 0:
+    articles_html = '<li>No articles yet.</li>'
 else:
-    print("Could not find the article list section")
+    items = []
+    for article in articles:
+        items.append(f'<li><a href="{article["url"]}">{article["title"]}</a></li>')
+    articles_html = '\n            '.join(items)
+
+# Replace placeholder
+output = template.replace('<!-- ARTICLES_PLACEholder -->', articles_html, flags=re.IGNORECASE)
+
+# Write to index.html
+with open(output_file, "w", encoding="utf-8") as f:
+    f.write(output)
+
+print(f"Updated {output_file} with {len(articles)} articles")
