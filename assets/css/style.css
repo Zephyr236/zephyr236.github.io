@@ -296,11 +296,19 @@ footer {
 }
 
 .katex-display {
-    margin: 30px 0;
+    margin: 30px auto;
     padding: 20px;
     background-color: #faf5f0;
     border-radius: 8px;
     overflow-x: auto;
+    text-align: center;
+    display: block;
+    max-width: 100%;
+}
+
+.katex-display > .katex {
+    text-align: center;
+    display: block;
 }
 
 /* Image */
