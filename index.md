@@ -16,16 +16,17 @@ title: Home
         {% endfor %}
     </ul>
 
-    <h2>Articles (HTML)</h2>
+    <h2>Articles</h2>
     <ul class="post-list">
-        {% assign html_files = site.html_files | sort: 'name' | reverse %}
-        {% for file in html_files %}
-            {% unless file.name contains 'layout' or file.name contains 'default' or file.name == 'index.html' %}
+        {% for file in site.static_files %}
+            {% if file.path contains '.html' %}
+            {% unless file.path contains 'index.html' or file.path contains '_layouts' or file.path contains '_includes' %}
             <li>
-                <span class="post-date">{{ file.name | slice: 0, 10 }}</span>
+                <span class="post-date">{{ file.path | slice: 1, 10 }}</span>
                 <a href="{{ file.url | relative_url }}">{{ file.name | remove: '.html' | replace: '-', ' ' | capitalize }}</a>
             </li>
             {% endunless %}
+            {% endif %}
         {% endfor %}
     </ul>
 </div>
