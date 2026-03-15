@@ -4,8 +4,7 @@ title: Home
 ---
 
 <div class="home">
-    <h1>Welcome to My Blog</h1>
-    <p>A personal blog built with Jekyll, supporting Markdown and LaTeX.</p>
+    <h1>Welcome to Zephyr's Blog</h1>
 
     <h2>Recent Posts</h2>
     <ul class="post-list">
