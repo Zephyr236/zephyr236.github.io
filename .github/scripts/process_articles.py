@@ -1,6 +1,6 @@
 import os
 import re
-import json
+import sys
 
 articles_dir = "articles"
 index_file = "index.html"
@@ -50,28 +50,37 @@ if os.path.exists(articles_dir):
 print(f"Found {len(articles)} articles")
 
 # Update index.html
-if os.path.exists(index_file):
-    with open(index_file, "r", encoding="utf-8") as f:
-        index_content = f.read()
-
-    # Find the article list section
-    articles_html = ""
-    for article in articles:
-        articles_html += f'            <li><a href="{article["url"]}">{article["title"]}</a></li>\n'
-
-    # Replace the placeholder
-    if '<ul class="post-list" id="typora-articles">' in index_content:
-        old_section = '''        <ul class="post-list" id="typora-articles">
-            <li>Loading articles...</li>
-        </ul>'''
-
-        new_section = f'''        <ul class="post-list" id="typora-articles">
-{articles_html.rstrip()}'''
-
-        index_content = index_content.replace(old_section, new_section)
-
-        with open(index_file, "w", encoding="utf-8") as f:
-            f.write(index_content)
-        print(f"Updated index.html with {len(articles)} articles")
-else:
+if not os.path.exists(index_file):
     print("index.html not found")
+    sys.exit(1)
+
+with open(index_file, "r", encoding="utf-8") as f:
+    index_content = f.read()
+
+# Find and replace the article list section
+old_marker = '<ul class="post-list" id="typora-articles">'
+end_marker = '</ul>'
+
+if old_marker in index_content:
+    # Find the start position
+    start_pos = index_content.find(old_marker)
+    # Find the end position
+    end_pos = index_content.find(end_marker, start_pos) + len(end_marker)
+
+    # Build new section
+    if len(articles) == 0:
+        new_section = old_marker + '\n            <li>No articles yet.</li>\n        ' + end_marker
+    else:
+        items = []
+        for article in articles:
+            items.append(f'            <li><a href="{article["url"]}">{article["title"]}</a></li>')
+        new_section = old_marker + '\n' + '\n'.join(items) + '\n        ' + end_marker
+
+    # Replace
+    index_content = index_content[:start_pos] + new_section + index_content[end_pos:]
+
+    with open(index_file, "w", encoding="utf-8") as f:
+        f.write(index_content)
+    print(f"Updated index.html with {len(articles)} articles")
+else:
+    print("Could not find typora-articles section in index.html")
