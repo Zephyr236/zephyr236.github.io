@@ -18,10 +18,14 @@ jobs:
       - name: Run article processing script
         run: python3 .github/scripts/process_articles.py
 
-      - name: Commit changes
+      - name: Commit and push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add articles/ index.html index.template.html
-          git diff --staged --quiet || git commit -m "Auto: Update articles in index.html"
-          git diff --staged --quiet && echo "No changes to commit" || git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Auto: Update articles in index.html"
+          git push
