@@ -15,7 +15,7 @@ jobs:
         with:
           ref: main
 
-      - name: Add standalone class to body
+      - name: Add front matter and standalone class
         run: |
           cat > process_html.py << 'PYEOF'
           import os
@@ -32,12 +32,32 @@ jobs:
               with open(filepath, 'r', encoding='utf-8') as f:
                 content = f.read()
 
+              # Skip if already has front matter
+              if content.startswith('---'):
+                print(f'Skipping (has front matter): {filepath}')
+                continue
+
               # Add class="standalone" to body tag if not already present
               if 'class="standalone"' not in content:
                 content = re.sub(r'<body([^>]*)>', r'<body\1 class="standalone">', content)
 
+              # Extract title
+              title_match = re.search(r'<title>(.*?)</title>', content)
+              title = title_match.group(1) if title_match else os.path.splitext(filename)[0]
+
+              # Extract body content
+              body_match = re.search(r'<body[^>]*>(.*?)</body>', content, re.DOTALL)
+              body_content = body_match.group(1) if body_match else content
+
+              # Add front matter
+              new_content = '---' + '\n'
+              new_content += 'layout: default' + '\n'
+              new_content += 'title: ' + title + '\n'
+              new_content += '---' + '\n\n'
+              new_content += body_content
+
               with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(content)
+                f.write(new_content)
               print(f'Processed: {filepath}')
           PYEOF
           python3 process_html.py
