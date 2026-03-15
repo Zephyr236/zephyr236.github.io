@@ -68,7 +68,7 @@ else:
     articles_html = '\n            '.join(items)
 
 # Replace placeholder
-output = template.replace('<!-- ARTICLES_PLACEholder -->', articles_html, flags=re.IGNORECASE)
+output = template.replace('<!-- ARTICLES_PLACEHOLDER -->', articles_html)
 
 # Write to index.html
 with open(output_file, "w", encoding="utf-8") as f:
