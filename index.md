@@ -17,26 +17,20 @@ title: Home
     </ul>
 
     {% assign html_count = 0 %}
-    {% for page in site.pages %}
+    {% for page in site.html_pages %}
         {% if page.path contains '/articles/' %}
-            {% assign ext = page.path | split: '.' | last %}
-            {% if ext == 'html' %}
-                {% assign html_count = html_count | plus: 1 %}
-            {% endif %}
+            {% assign html_count = html_count | plus: 1 %}
         {% endif %}
     {% endfor %}
 
     {% if html_count > 0 %}
     <h2>Typora Articles</h2>
     <ul class="post-list">
-        {% for page in site.pages %}
+        {% for page in site.html_pages %}
             {% if page.path contains '/articles/' %}
-                {% assign ext = page.path | split: '.' | last %}
-                {% if ext == 'html' %}
-                <li>
-                    <a href="{{ page.url | relative_url }}">{{ page.title }}</a>
-                </li>
-                {% endif %}
+            <li>
+                <a href="{{ page.url | relative_url }}">{{ page.title }}</a>
+            </li>
             {% endif %}
         {% endfor %}
     </ul>
