@@ -29,8 +29,8 @@ header_html = '''
     <header style="text-align: center; padding: 30px 0; margin-bottom: 30px;">
         <a href="index.html" class="site-title" style="font-family: 'Lora', Georgia, serif; font-size: 2.2em; color: #5d5d5d; text-decoration: none; letter-spacing: 2px;">Zephyr's Blog</a>
         <nav style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
-            <a href="index.html" style="text-decoration: none; color: #8a7f7d;">Home</a>
-            <a href="about.html" style="text-decoration: none; color: #8a7f7d;">About</a>
+            <a href="../index.html" style="text-decoration: none; color: #8a7f7d;">Home</a>
+            <a href="../about.html" style="text-decoration: none; color: #8a7f7d;">About</a>
         </nav>
     </header>
 '''
