@@ -3,13 +3,9 @@ import re
 import json
 
 articles_dir = "articles"
-if not os.path.exists(articles_dir):
-    print(f"Directory {articles_dir} does not exist, skipping...")
-    with open("articles.json", "w") as f:
-        json.dump([], f)
-    exit(0)
+index_file = "index.html"
 
-articles = []
+# CSS style to add to each article
 css_style = '''<link rel="stylesheet" href="assets/css/style.css">
     <style>
         body { max-width: 800px; margin: 0 auto; padding: 40px 20px; background: linear-gradient(135deg, #fdfbf7 0%, #faf5f0 100%); min-height: 100vh; }
@@ -26,26 +22,56 @@ css_style = '''<link rel="stylesheet" href="assets/css/style.css">
         blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
     </style>'''
 
-for filename in sorted(os.listdir(articles_dir)):
-    if filename.endswith(".html"):
-        filepath = os.path.join(articles_dir, filename)
-        with open(filepath, "r", encoding="utf-8") as f:
-            content = f.read()
+# Process HTML files in articles directory
+articles = []
+if os.path.exists(articles_dir):
+    for filename in sorted(os.listdir(articles_dir)):
+        if filename.endswith(".html"):
+            filepath = os.path.join(articles_dir, filename)
+            with open(filepath, "r", encoding="utf-8") as f:
+                content = f.read()
 
-        title_match = re.search(r"<title>(.*?)</title>", content)
-        title = title_match.group(1) if title_match else os.path.splitext(filename)[0]
+            # Extract title
+            title_match = re.search(r"<title>(.*?)</title>", content)
+            title = title_match.group(1) if title_match else os.path.splitext(filename)[0]
 
-        articles.append({
-            "title": title,
-            "url": articles_dir + "/" + filename
-        })
+            articles.append({
+                "title": title,
+                "url": articles_dir + "/" + filename
+            })
 
-        if 'href="assets/css/style.css"' not in content:
-            content = content.replace("<head>", "<head>\n    " + css_style)
-            with open(filepath, "w", encoding="utf-8") as f:
-                f.write(content)
-            print(f"Styled: {filepath}")
+            # Add CSS if not present
+            if 'href="assets/css/style.css"' not in content:
+                content = content.replace("<head>", "<head>\n    " + css_style)
+                with open(filepath, "w", encoding="utf-8") as f:
+                    f.write(content)
+                print(f"Styled: {filepath}")
 
-with open("articles.json", "w", encoding="utf-8") as f:
-    json.dump(articles, f, ensure_ascii=False)
-print(f"Generated articles.json with {len(articles)} articles")
+print(f"Found {len(articles)} articles")
+
+# Update index.html
+if os.path.exists(index_file):
+    with open(index_file, "r", encoding="utf-8") as f:
+        index_content = f.read()
+
+    # Find the article list section
+    articles_html = ""
+    for article in articles:
+        articles_html += f'            <li><a href="{article["url"]}">{article["title"]}</a></li>\n'
+
+    # Replace the placeholder
+    if '<ul class="post-list" id="typora-articles">' in index_content:
+        old_section = '''        <ul class="post-list" id="typora-articles">
+            <li>Loading articles...</li>
+        </ul>'''
+
+        new_section = f'''        <ul class="post-list" id="typora-articles">
+{articles_html.rstrip()}'''
+
+        index_content = index_content.replace(old_section, new_section)
+
+        with open(index_file, "w", encoding="utf-8") as f:
+            f.write(index_content)
+        print(f"Updated index.html with {len(articles)} articles")
+else:
+    print("index.html not found")

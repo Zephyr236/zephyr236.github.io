@@ -33,23 +33,5 @@
     <footer>
         <p>&copy; 2026 Zephyr. All rights reserved.</p>
     </footer>
-
-    <script>
-        fetch('articles.json')
-            .then(response => response.json())
-            .then(articles => {
-                const list = document.getElementById('typora-articles');
-                if (articles.length === 0) {
-                    list.innerHTML = '<li>No articles yet.</li>';
-                    return;
-                }
-                list.innerHTML = articles.map(article =>
-                    '<li><a href="' + article.url + '">' + article.title + '</a></li>'
-                ).join('');
-            })
-            .catch(() => {
-                document.getElementById('typora-articles').innerHTML = '<li>No articles yet.</li>';
-            });
-    </script>
 </body>
 </html>
