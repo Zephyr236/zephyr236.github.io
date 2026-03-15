@@ -18,7 +18,7 @@ css_style = '''<link rel="stylesheet" href="assets/css/style.css">
         table { border-collapse: collapse; width: 100%; margin: 20px 0; }
         table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
         table th { background-color: #f5efe9; }
-        img { max-width: 100%; height: auto; }
+        img { max-width: 100%; height: auto; display: block; margin: 20px auto;}
         pre { background-color: #faf5f0; padding: 20px; border-radius: 8px; overflow-x: auto; border: 1px solid #e8e0d8; }
         code { background-color: #f5efe9; padding: 3px 8px; border-radius: 4px; }
         blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
