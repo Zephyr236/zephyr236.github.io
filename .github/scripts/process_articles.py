@@ -42,12 +42,23 @@ if os.path.exists(articles_dir):
                 "url": articles_dir + "/" + filename
             })
 
+            # Remove existing custom CSS and add fresh one
+            # Remove old <link> and <style> tags added by our script
+            content = re.sub(r'<link rel="stylesheet" href="assets/css/style.css">\s*<style>.*?</style>', '', content, flags=re.DOTALL)
+            content = re.sub(r'<link rel="stylesheet" href="\.\./assets/css/style.css">\s*<style>.*?</style>', '', content, flags=re.DOTALL)
+
             # Add CSS if not present
             if 'href="assets/css/style.css"' not in content:
                 content = content.replace("<head>", "<head>\n    " + css_style)
                 with open(filepath, "w", encoding="utf-8") as f:
                     f.write(content)
                 print(f"Styled: {filepath}")
+            else:
+                # Update existing
+                content = content.replace('href="assets/css/style.css">', 'href="assets/css/style.css">\n    ' + css_style)
+                with open(filepath, "w", encoding="utf-8") as f:
+                    f.write(content)
+                print(f"Updated: {filepath}")
 
 print(f"Found {len(articles)} articles")
 
