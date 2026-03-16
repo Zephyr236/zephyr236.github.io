@@ -6,8 +6,8 @@
     <title>Zephyr's Blog</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .post-list li { display: flex; align-items: baseline; }
-        .post-list .post-date { flex-shrink: 0; margin-right: 20px; }
+        .post-list li { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+        .post-list .post-date { flex-shrink: 0; color: #a0908d; font-size: 0.85em; }
     </style>
 </head>
 <body>
@@ -24,10 +24,10 @@
 
         <h2>Recent Posts</h2>
         <ul class="post-list" id="typora-articles">
-            <li><span class="post-date">March 14, 2026</span><a href="articles/2026-03-14-决策求解算法.html">决策求解算法</a></li>
-            <li><span class="post-date">March 09, 2026</span><a href="articles/2026-03-09-决策的数学原理.html">决策的数学原理</a></li>
-            <li><span class="post-date">February 27, 2026</span><a href="articles/2026-02-27-手动实现简单数字识别.html">手动实现简单数字识别</a></li>
-            <li><span class="post-date">February 25, 2026</span><a href="articles/2026-02-25-多智能体科研系统FARS生成论文阅读.html">多智能体科研系统FARS生成论文阅读</a></li>
+            <li><a href="articles/2026-03-14-决策求解算法.html">决策求解算法</a><span class="post-date">March 14, 2026</span></li>
+            <li><a href="articles/2026-03-09-决策的数学原理.html">决策的数学原理</a><span class="post-date">March 09, 2026</span></li>
+            <li><a href="articles/2026-02-27-手动实现简单数字识别.html">手动实现简单数字识别</a><span class="post-date">February 27, 2026</span></li>
+            <li><a href="articles/2026-02-25-多智能体科研系统FARS生成论文阅读.html">多智能体科研系统FARS生成论文阅读</a><span class="post-date">February 25, 2026</span></li>
         </ul>
     </main>
 

@@ -124,7 +124,7 @@ else:
     items = []
     for article in articles:
         if article["date"]:
-            items.append(f'<li><span class="post-date">{article["date"]}</span><a href="{article["url"]}">{article["title"]}</a></li>')
+            items.append(f'<li><a href="{article["url"]}">{article["title"]}</a><span class="post-date">{article["date"]}</span></li>')
         else:
             items.append(f'<li><a href="{article["url"]}">{article["title"]}</a></li>')
     articles_html = '\n            '.join(items)
