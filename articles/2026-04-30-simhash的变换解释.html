@@ -1,10 +1,35 @@
 <!doctype html>
 <html>
 <head>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { max-width: 800px; margin: 0 auto; padding: 40px 20px; background: linear-gradient(135deg, #fdfbf7 0%, #faf5f0 100%); min-height: 100vh; }
+        h1, h2, h3 { font-family: 'Lora', Georgia, serif; color: #4a4a4a; }
+        h1 { border-bottom: 2px solid #e8e0d8; padding-bottom: 0.4em; }
+        h2 { border-bottom: 1px solid #e8e0d8; padding-bottom: 0.3em; }
+        a { color: #b8a5a2; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        table th { background-color: #f5efe9; }
+        img { max-width: 100%; height: auto; display: block; margin: 20px auto;}
+        pre { background-color: #faf5f0; padding: 20px; border-radius: 8px; overflow-x: auto; border: 1px solid #e8e0d8; }
+        code { background-color: #f5efe9; padding: 3px 8px; border-radius: 4px; }
+        blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
+        mjx-container { display: block !important; text-align: center !important; margin: 20px auto !important; }
+    </style>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <title>simhash的变换解释</title>
 </head>
-<body><h1 id='前言'>前言</h1>
+<body>
+
+    <header style="text-align: center; padding: 30px 0; margin-bottom: 30px;">
+        <a href="index.html" class="site-title" style="font-family: 'Lora', Georgia, serif; font-size: 2.2em; color: #5d5d5d; text-decoration: none; letter-spacing: 2px;">Zephyr's Blog</a>
+        <nav style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
+            <a href="../index.html" style="text-decoration: none; color: #8a7f7d;">Home</a>
+            <a href="../about.html" style="text-decoration: none; color: #8a7f7d;">About</a>
+        </nav>
+    </header>
+<h1 id='前言'>前言</h1>
 <p>在此前了解了simhash的作用的计算，但是我一直不理解为什么能这样子，数学原理是什么？在我学习完高等代数后一切都是那么的豁然开朗。</p>
 <p>simhash主要用于计算文本相似度，最早是有谷歌的工程师提出，用于解决海量文本相似问题。</p>
 <p>&nbsp;</p>
@@ -68,5 +93,10 @@ V = [2, 2, -2, 2, 2, -2, 2, -2]
 <p>然后求文本向量A变换后的结果，可以发现和上面的计算结果一致</p>
 <p>而这样计算的思想就是，把文本向量在以每一个词向量为基的坐标中的投影。</p>
 <p>这样也就是意味着把每一个不同的文本向量映射到了由词向量组成的一个空间中，而如果两段文本相似，那么通过这种变换最终两个向量的夹角会变小，最终能体现在余弦相似度上。</p>
+
+    <footer style="margin-top: 60px; padding-top: 30px; border-top: 1px solid #e8e0d8; text-align: center; color: #a0908d; font-size: 0.85em;">
+        <p>&copy; 2026 Zephyr. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
