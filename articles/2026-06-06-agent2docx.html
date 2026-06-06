@@ -1,0 +1,405 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>agent2docx</title>
+</head>
+<body><div>[TOC]</div>
+<p>&nbsp;</p>
+<h1 id='前言'>前言</h1>
+<p>本文不是按照时间顺序完成的，是同时进行的，所以可以会有点跳。</p>
+<p>&nbsp;</p>
+<h1 id='如何更好的设计和生成html'>如何更好的设计和生成html</h1>
+<p>我们很多场景是需要直接从零编写一个文档或者pdf的，这个时候我们就可以考虑使用html转docx或者pdf的形式了。所以我们的问题就从怎么制作文档，变成怎么更好的制作html了</p>
+<p><img src="./assets/image-20260606215523852.png" alt="image-20260606215523852"></p>
+<pre><code>https://github.com/OpenCoworkAI/open-codesign
+</code></pre>
+<p>这个项目用来设计前端的，也能用来帮助我们更好的生成html文档</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215529531.png" alt="image-20260606215529531"></p>
+<pre><code>wget https://github.com/OpenCoworkAI/open-codesign/releases/download/v0.2.1/open-codesign-0.2.1-x64.deb
+</code></pre>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215538166.png" alt="image-20260606215538166"></p>
+<pre><code>sudo dpkg -i open-codesign-0.2.1-x64.deb
+</code></pre>
+<p>安装open-codesign</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215546272.png" alt="image-20260606215546272"></p>
+<p>kali上右键点第一个</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215552073.png" alt="image-20260606215552073"></p>
+<p>输入open后看到下面的open c，点它</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215557830.png" alt="image-20260606215557830"></p>
+<p>然后create</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215604525.png" alt="image-20260606215604525"></p>
+<p>桌面就出现了一个快捷方式</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215610115.png" alt="image-20260606215610115"></p>
+<p>双击运行就行了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215615385.png" alt="image-20260606215615385"></p>
+<p>开始配置api key</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215622371.png" alt="image-20260606215622371"></p>
+<p>这样子就配置完成了</p>
+<p>&nbsp;</p>
+<h2 id='html转pdf和docx的案例'>html转pdf和docx的案例</h2>
+<p><img src="./assets/image-20260606215628774.png" alt="image-20260606215628774"></p>
+<pre><code>https://github.com/anthropics/claude-agent-sdk-python
+</code></pre>
+<p>假如我们需要编写一份项目的解读报告的文档，以上面这个项目为例子</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215635173.png" alt="image-20260606215635173"></p>
+<pre><code>git clone https://github.com/anthropics/claude-agent-sdk-python.git
+</code></pre>
+<p>把它clone下来，这个项目就作为我们需要编写解读报告的案例。接下来我们的思路就行，先生成一份详细的markdown文档，然后open-codesign根据这个文档生成html</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215643670.png" alt="image-20260606215643670"></p>
+<p>然后让claude code去探索这个项目，并生成制作markdown文档</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215653327.png" alt="image-20260606215653327"></p>
+<p>然后就生成了一份文档</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215713609.png" alt="image-20260606215713609"></p>
+<p>然后我们新建了一个设计，选择claude agent sdk的目录</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215720507.png" alt="image-20260606215720507"></p>
+<p>在这里添加上编写好的md文档</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215728280.png" alt="image-20260606215728280"></p>
+<pre><code>请你帮我根据这个文档，设计一个详细的解读报告，我最终将把这个html转为docx或者pdf
+</code></pre>
+<p>然后让它去设计</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215734331.png" alt="image-20260606215734331"></p>
+<p>然后他就自己开始设计了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215741738.png" alt="image-20260606215741738"></p>
+<p>然后就生成完毕了，右边就是他的报告了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215748586.png" alt="image-20260606215748586"></p>
+<p>把它生成的html在浏览器中打开，也能看到效果。</p>
+<p>&nbsp;</p>
+<h3 id='评论模式'>评论模式</h3>
+<p><img src="./assets/image-20260606215755624.png" alt="image-20260606215755624"></p>
+<p>假如我们不是很像要这个几个字</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215801052.png" alt="image-20260606215801052"></p>
+<p>点击评论模式</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215808432.png" alt="image-20260606215808432"></p>
+<p>然后点击不满意的页面元素，就会弹出来一个框，输入你的要求就行了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215814418.png" alt="image-20260606215814418"></p>
+<p>让他去掉</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215820371.png" alt="image-20260606215820371"></p>
+<p>对应的就是这样子的页面，然后点击应用</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215825744.png" alt="image-20260606215825744"></p>
+<p>它就会开始调整了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215832111.png" alt="image-20260606215832111"></p>
+<p>然后就调整结束了，我们不想要这个风格，也可以和他说</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215837678.png" alt="image-20260606215837678"></p>
+<pre><code>帮我改成专业的学术论文风格，排版和布局都要符合学术标准
+</code></pre>
+<p>让他去改成学术论文的样子</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215843602.png" alt="image-20260606215843602"></p>
+<p>然后就设计成这样子了，同样不满意的部分可以用这个工具的<code>评论模式</code>进行更精细的调整</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215849634.png" alt="image-20260606215849634"></p>
+<p>它设计的三线表</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215855928.png" alt="image-20260606215855928"></p>
+<p>然后我们在浏览器里面打印</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215902840.png" alt="image-20260606215902840"></p>
+<p>生成的pdf效果就是这样子了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215909260.png" alt="image-20260606215909260"></p>
+<p>也可以用wps打开</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215914773.png" alt="image-20260606215914773"></p>
+<p>但是一些效果就没了。这个得靠其他方式去调整文档。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215920102.png" alt="image-20260606215920102"></p>
+<p>通过提示词不断的调整，在word中打开效果会好一些。</p>
+<p>&nbsp;</p>
+<h3 id='小结'>小结</h3>
+<p>通过markdown转html，再转成pdf或者docx的方法，可以设计出来一个不错的pdf甚至封面也能设计。</p>
+<p>但是制作docx的时候调整无法实时的在word或者wps中看到改变，所以需要结合其他的方法。</p>
+<p>&nbsp;</p>
+<h1 id='html转ppt'>html转PPT</h1>
+<p><img src="./assets/image-20260606215926015.png" alt="image-20260606215926015"></p>
+<p>这个软件也能制作&quot;ppt&quot;</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215932847.png" alt="image-20260606215932847"></p>
+<p>然后就设计好了一份&quot;ppt&quot;</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215939048.png" alt="image-20260606215939048"></p>
+<p>评论模式同样能使用</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215947055.png" alt="image-20260606215947055"></p>
+<p>但是这个&quot;ppt&quot;只能在浏览器里面看，因为他是写了一个html，cosplay的ppt。接下来我们需要得到真正的ppt</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606215957013.png" alt="image-20260606215957013"></p>
+<pre><code>https://github.com/iOfficeAI/AionUi
+</code></pre>
+<p>然后需要使用这个项目，这个项目中内置了关于office操作的skills</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220003409.png" alt="image-20260606220003409"></p>
+<p>看你的情况下载，下载后安装，它会自动调用你已经安装好的claude code。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220008970.png" alt="image-20260606220008970"></p>
+<pre><code>https://github.com/iOfficeAI/OfficeCLI
+</code></pre>
+<p>这个是配套的工具，用来通过cli操控office的那些东西</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220014988.png" alt="image-20260606220014988"></p>
+<p>下载后重命名成officecli.exe，linux就不需要后缀名。并加入环境变量中</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220021426.png" alt="image-20260606220021426"></p>
+<p>能执行成功就算成功安装了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220027518.png" alt="image-20260606220027518"></p>
+<p>然后打开就是这样子</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220033361.png" alt="image-20260606220033361"></p>
+<p>把open-codesign生成的html放到一个文件夹中</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220042842.png" alt="image-20260606220042842"></p>
+<p>然后让他去制作就行了。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220056743.png" alt="image-20260606220056743"></p>
+<p>他就开始去生成ppt了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220103401.png" alt="image-20260606220103401"></p>
+<p>最后就制作完毕了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220109615.png" alt="image-20260606220109615"></p>
+<p>效果大概是这样子</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220116394.png" alt="image-20260606220116394"></p>
+<p>这个是网页中的效果，和ppt中的效果是高度相似的。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220123145.png" alt="image-20260606220123145"></p>
+<p>也不是完全没有问题，但是可以让他去调查</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220131873.png" alt="image-20260606220131873"></p>
+<p>例如这里就出现了问题。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220138436.png" alt="image-20260606220138436"></p>
+<p>让他继续去改</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220146539.png" alt="image-20260606220146539"></p>
+<p>然后他重新写了一遍</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220153202.png" alt="image-20260606220153202"></p>
+<p>还是有问题，直接指出来吧</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220200313.png" alt="image-20260606220200313"></p>
+<p>让他继续改</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220205944.png" alt="image-20260606220205944"></p>
+<p>然后就改到正确的位置了。这也就是意味着，我们可以使用opencodesign设计ppt，然后让AionUi将我们设计好的html转成ppt</p>
+<p>&nbsp;</p>
+<h1 id='docx调整'>docx调整</h1>
+<p><img src="./assets/image-20260606220212066.png" alt="image-20260606220212066"></p>
+<p>使用wps打开之前生成的</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220218250.png" alt="image-20260606220218250"></p>
+<p>另存为docx</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220225022.png" alt="image-20260606220225022"></p>
+<p>然后让它调整格式</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220231131.png" alt="image-20260606220231131"></p>
+<p>这是它调整的问题，这个不太明显</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220237371.png" alt="image-20260606220237371"></p>
+<p>让他继续修改局部的样式</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220242408.png" alt="image-20260606220242408"></p>
+<p><img src="./assets/image-20260606220247809.png" alt="image-20260606220247809"></p>
+<p>修改之前如上的情况</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220253442.png" alt="image-20260606220253442"></p>
+<p>参考文献相对正常了一些</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220259630.png" alt="image-20260606220259630"></p>
+<p>三线表的效果</p>
+<p>&nbsp;</p>
+<h2 id='小结-2'>小结</h2>
+<p>用这种方式慢慢调整吧。</p>
+<p>&nbsp;</p>
+<h1 id='绘图'>绘图</h1>
+<p>有时候我们可能需要制作一些流程图，时序图什么的，也可以使用agent去帮我们绘制。</p>
+<p>&nbsp;</p>
+<h2 id='pencil'>pencil</h2>
+<p><img src="./assets/image-20260606220307449.png" alt="image-20260606220307449"></p>
+<p>pencil是一个好用的开源设计软件，在vscode中也有插件，我们先安装一个vscode,同样在kali中安装，也是下载deb</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220312483.png" alt="image-20260606220312483"></p>
+<p>和上面一样的方式。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220317392.png" alt="image-20260606220317392"></p>
+<p>安装这个插件，我后面使用windows演示。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220322406.png" alt="image-20260606220322406"></p>
+<p>注册登录</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220327435.png" alt="image-20260606220327435"></p>
+<p>点这个</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220333090.png" alt="image-20260606220333090"></p>
+<p>然后在你的claude code中输入/mcp能看到上图中的pencil就算安装成功</p>
+<p>&nbsp;</p>
+<h2 id='案例'>案例</h2>
+<p><img src="./assets/image-20260606220339021.png" alt="image-20260606220339021"></p>
+<p>我们可以用这个设计各种各样奇怪的东西，例如让它设计一个广告</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220345697.png" alt="image-20260606220345697"></p>
+<p>然后我们就能看到它设计的过程了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220351092.png" alt="image-20260606220351092"></p>
+<p>最终就设计完成了</p>
+<p><img src="./assets/image-20260606220356385.png" alt="image-20260606220356385"></p>
+<p>效果大概是这样子的一个网页。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220403605.png" alt="image-20260606220403605"></p>
+<p>用这个的一个好处就是，不满意可以自己改。</p>
+<p>&nbsp;</p>
+<h2 id='流程图'>流程图</h2>
+<p><img src="./assets/image-20260606220409341.png" alt="image-20260606220409341"></p>
+<p>让他根据一个项目制作各种各样乱七八糟的图片</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220414692.png" alt="image-20260606220414692"></p>
+<p>这个是它绘制的几张图，有点丑，让它继续调整</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220420273.png" alt="image-20260606220420273"></p>
+<p>让它换风格</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220425397.png" alt="image-20260606220425397"></p>
+<p>换了一个风格</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220431380.png" alt="image-20260606220431380"></p>
+<p>继续让它调整</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220437326.png" alt="image-20260606220437326"></p>
+<p>还是怪怪的</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220443572.png" alt="image-20260606220443572"></p>
+<p>不断的调最终绘制出来的效果</p>
+<p>&nbsp;</p>
+<h2 id='docx文档中需要的图'>docx文档中需要的图</h2>
+<p><img src="./assets/image-20260606220449716.png" alt="image-20260606220449716"></p>
+<p>再前面的docx中我们还确立一张图，就用这个pencli生成</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220455604.png" alt="image-20260606220455604"></p>
+<p>然后就粘贴进去了，风格可以不断的调。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2 id='chatgpt生图'>chatgpt生图</h2>
+<p><img src="./assets/image-20260606220502994.png" alt="image-20260606220502994"></p>
+<p>去搞一个chatgpt的账号，一个free的账号成本大概6到8块钱，然后生图有免费的额度，可以多注册几个号。</p>
+<p><img src="./assets/image-20260606220511394.png" alt="image-20260606220511394"></p>
+<p>然后就能生成一下需要的图了。</p>
+<p>&nbsp;</p>
+<h1 id='pandoc-ast实验'>pandoc AST(实验)</h1>
+<p>docx文档实际上一个xml文件，要想真正实现DOCX AST需要参考python-docx，python-docx才是真正直接对xml进行操作的项目，但是会很复杂，并且它封装的也不全面。可以使用pandoc生成的类似AST的东西来代替。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220517264.png" alt="image-20260606220517264"></p>
+<pre><code>https://github.com/jgm/pandoc/releases/tag/3.10
+</code></pre>
+<p>这个工具常用于各种格式的文档转换，先把这个工具安装了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220525659.png" alt="image-20260606220525659"></p>
+<p>能执行成功说明安装成功了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220532026.png" alt="image-20260606220532026"></p>
+<pre><code>pandoc index2.docx -t json &gt; ast.json
+或者pandoc index2.docx -t json -o ast.json
+</code></pre>
+<p>把docx生成一个结构化的数据</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220537200.png" alt="image-20260606220537200"></p>
+<p>把它转成这样子的一个东西</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220543572.png" alt="image-20260606220543572"></p>
+<p>继续让它调整</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220550691.png" alt="image-20260606220550691"></p>
+<p>这样子相当于多了一个新增中间层</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220559223.png" alt="image-20260606220559223"></p>
+<p>但其实效果也没有多好，当然也能用但是既然都要做语法树了还是这个效果明显不满足预期。因为真正的docx用的xml及其复杂，agent根本不知道怎么操作</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220605708.png" alt="image-20260606220605708"></p>
+<pre><code>https://learn.microsoft.com/en-us/office/open-xml/open-xml-sdk
+</code></pre>
+<p>官方文档。连pandoc python-docx这种项目都没有完成把docx转成AST，也没有完全的封装，我们更没有精力去做了。</p>
+<p>&nbsp;</p>
+<h1 id='document-ast实验'>Document AST(实验)</h1>
+<p>如果我们能把docx完完全全转成一个抽象语法树，然后让agent操纵AST最终再转回去，这样子才能做到真正的编辑docx。然而真正能实现Document AST的项目很少</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220611815.png" alt="image-20260606220611815"></p>
+<pre><code>https://github.com/harshankur/officeParser
+</code></pre>
+<p>然后就是这个项目，能将docx转成AST，但是它不能从AST转会docx</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220618319.png" alt="image-20260606220618319"></p>
+<pre><code>npx officeparser D:\md\agent文档生成\docx\index2.docx
+</code></pre>
+<p>使用这个命令就可以了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220625697.png" alt="image-20260606220625697"></p>
+<p>可以看到对比pandoc生成的ast的大小差距</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220633068.png" alt="image-20260606220633068"></p>
+<p>尝试这种方式去检查和调整</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220639224.png" alt="image-20260606220639224"></p>
+<p>然后它说它修好了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220646466.png" alt="image-20260606220646466"></p>
+<p>然而并没有，很明显需要先给它一个正确的三线表。</p>
+<p>&nbsp;</p>
+<h1 id='libreoffice尝鲜'>libreoffice(尝鲜)</h1>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220653803.png" alt="image-20260606220653803"></p>
+<pre><code>https://www.libreoffice.org
+</code></pre>
+<p>就像是一个开源的office一样</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220659344.png" alt="image-20260606220659344"></p>
+<p>效果其实也很一般，还是得不断的调整</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260606220705356.png" alt="image-20260606220705356"></p>
+<pre><code>soffice --headless --convert-to docx report.html
+  
+soffice --headless --convert-to pdf report.html
+</code></pre>
+<p>他提供了html转docx的命令行，很明显需要编写符合它要求的html</p>
+<p>&nbsp;</p>
+<h1 id='总结'>总结</h1>
+<p>所有所有的思路其实都可以归结于采用了什么中间层的问题。</p>
+<p>一开始，我是md-&gt;docx，发现会有很大问题，因为md转docx无法保留样式的信息，如果我像调整docx必须要给出模板，或者就是不断的去设计md转化的css样式</p>
+<p>随后升级成，md-&gt;html-&gt;docx，这个时候解决了上面的即使修改样式问题，我可以使用各种各样的开源agent如opencodesign去不断的调整html，然后再生成docx或者ppt。但是出现了html转docx的问题，市面上几乎所有的开源项目都没有很完美是实现对docx 的openxml的封装或者高颗粒度的控制。</p>
+<p>为了能更好的的对docx进行编辑，我再新增了一层ast。变成了md-&gt;html-&gt;docx-&gt;ast-&gt;patch docx或者md-&gt;html-&gt;docx-&gt;ast-&gt;docx</p>
+<p>但是pandoc生成的ast是有损的，虽然能做到docx-&gt;ast-docx但是无法保留更多的样式，并且生成的ast丢失了很多信息</p>
+<p>随后使用officeParser生成足够完善的AST，但是无法做到AST-&gt;docx只能做到agent根据AST去patch docx。</p>
+<p>&nbsp;</p>
+<p>如果真正要实现agent对docx高颗粒度的控制，就需要完完全全的搞懂office官方提供的open xml,让agent直接对xml进行操控，但是很明显不现实，这么多家公司都没有完善的事情，如果我们要去做不知道需要多少成本。</p>
+<p>&nbsp;</p>
+<p>目前的情况就是可以用但不完美的情况。</p>
+</body>
+</html>
