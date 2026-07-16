@@ -17,6 +17,22 @@
         blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
         mjx-container { display: block !important; text-align: center !important; margin: 20px auto !important; }
     </style>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { max-width: 800px; margin: 0 auto; padding: 40px 20px; background: linear-gradient(135deg, #fdfbf7 0%, #faf5f0 100%); min-height: 100vh; }
+        h1, h2, h3 { font-family: 'Lora', Georgia, serif; color: #4a4a4a; }
+        h1 { border-bottom: 2px solid #e8e0d8; padding-bottom: 0.4em; }
+        h2 { border-bottom: 1px solid #e8e0d8; padding-bottom: 0.3em; }
+        a { color: #b8a5a2; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        table th { background-color: #f5efe9; }
+        img { max-width: 100%; height: auto; display: block; margin: 20px auto;}
+        pre { background-color: #faf5f0; padding: 20px; border-radius: 8px; overflow-x: auto; border: 1px solid #e8e0d8; }
+        code { background-color: #f5efe9; padding: 3px 8px; border-radius: 4px; }
+        blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
+        mjx-container { display: block !important; text-align: center !important; margin: 20px auto !important; }
+    </style>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <title>DES学习与攻击思考</title>
 </head>
@@ -29,6 +45,9 @@
             <a href="../about.html" style="text-decoration: none; color: #8a7f7d;">About</a>
         </nav>
     </header>
+
+
+    
 <div>[TOC]</div>
 <p>&nbsp;</p>
 <h1 id='背景'>背景</h1>
@@ -192,6 +211,9 @@ R_i = L_{i-1} \ XOR\  F(R_{i-1}, K_i)"><g data-mjx-linestack="true"><g data-mjx-
 <p>我在思考，这里能否使用机器学习的思路去判断，F相同和F不同情况下<mjx-container class="MathJax" jax="SVG" overflow="overflow" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="11.144ex" height="1.749ex" role="img" focusable="false" viewBox="0 -751.2 4925.8 773.2" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.05ex;"><defs><path id="MJX-36-NCM-I-1D445" d="M739 531C739 582 713 621 662 649C621 672 572 683 517 683L235 683C212 683 202 682 202 659C202 652 205 647 211 646C221 645 229 644 234 644C264 643 281 641 286 640C291 639 294 636 294 631C294 629 293 623 290 613L158 82C153 60 143 46 128 41C121 39 103 38 72 38C50 38 41 37 41 15C41 4 47-1 59 0L183 3L309 0C325-1 333 8 333 23C333 33 322 38 301 38C261 38 241 43 241 52C241 52 242 54 244 68L308 327L423 327C492 327 527 298 527 241C527 232 522 210 513 174C502 132 497 104 497 89C497 13 556-22 632-22C660-22 687-9 714 16C741 41 755 68 755 96C755 106 750 111 739 111C732 111 726 106 723 95C712 64 698 41 682 28C666 15 651 8 636 8C613 8 601 27 601 64C601 88 604 125 611 176C614 197 615 212 615 223C615 276 587 315 531 339C625 362 739 429 739 531M609 616C629 603 639 581 639 550C639 530 635 507 626 480C599 398 531 357 422 357L316 357L379 610C384 631 392 642 403 643C408 644 428 644 463 644C528 644 566 642 609 616Z"></path><path id="MJX-36-NCM-N-A0" d=""></path><path id="MJX-36-NCM-I-1D44B" d="M834 683C817 683 758 680 741 680C721 680 651 683 631 683C616 683 608 675 608 659C608 650 613 645 624 644C648 641 660 633 660 618C660 609 654 598 642 585L486 417C457 485 429 552 400 620C401 622 402 624 405 626C414 636 431 642 455 644C471 646 479 654 479 667C479 678 473 683 460 683C436 683 359 680 335 680C314 680 245 683 224 683C209 683 202 675 202 659C202 649 211 644 229 644C274 644 288 644 300 615L416 342L208 119C205 116 201 112 196 109C155 66 108 42 53 39C36 38 27 29 27 14C30 5 31 0 44 0C61 0 120 3 137 3C158 3 227 0 248 0C263 0 270 8 270 24C270 33 265 38 254 39C230 41 218 50 218 65C218 75 227 89 244 107C306 173 369 239 430 306C464 225 499 145 532 63C531 61 530 59 527 56C518 47 502 42 478 39C463 37 455 29 455 16C455 5 461 0 474 0L599 3C620 3 690 0 708 0C723 0 731 8 731 23C731 33 724 38 709 39C678 39 658 40 651 44C644 48 636 60 628 80L501 383C569 455 620 509 653 546C677 571 693 588 702 595C739 626 780 642 825 644C846 645 851 650 851 669C848 678 847 683 834 683Z"></path><path id="MJX-36-NCM-I-1D442" d="M702 263C727 320 740 377 740 435C740 513 717 577 670 628C623 679 561 705 484 705C431 705 378 692 325 666C217 613 138 529 87 415C62 359 49 303 49 246C49 167 72 103 119 53C166 3 228-22 306-22C358-22 410-9 463 16C572 69 651 152 702 263M644 474C644 341 584 208 520 129C476 74 400 12 312 12C205 12 149 105 149 218C149 253 156 300 169 357C196 475 264 579 353 633C396 659 438 672 478 672C586 672 644 586 644 474Z"></path><path id="MJX-36-NCM-V-2032" d="M284 549C259 549 242 539 233 518L65 96L110 96L332 463C337 472 340 482 340 493C340 523 314 549 284 549Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="R\ XOR \ R'"><g data-mml-node="mi" data-latex="R"><use data-c="1D445" xlink:href="#MJX-36-NCM-I-1D445"></use></g><g data-mml-node="mtext" data-latex="\ " transform="translate(759,0)"><use data-c="A0" xlink:href="#MJX-36-NCM-N-A0"></use></g><g data-mml-node="mi" data-latex="X" transform="translate(1091,0)"><use data-c="1D44B" xlink:href="#MJX-36-NCM-I-1D44B"></use></g><g data-mml-node="mi" data-latex="O" transform="translate(1942,0)"><use data-c="1D442" xlink:href="#MJX-36-NCM-I-1D442"></use></g><g data-mml-node="mi" data-latex="R" transform="translate(2705,0)"><use data-c="1D445" xlink:href="#MJX-36-NCM-I-1D445"></use></g><g data-mml-node="mtext" data-latex="\ " transform="translate(3464,0)"><use data-c="A0" xlink:href="#MJX-36-NCM-N-A0"></use></g><g data-mml-node="msup" transform="translate(3796,0)"><g data-mml-node="mi" data-latex="R"><use data-c="1D445" xlink:href="#MJX-36-NCM-I-1D445"></use></g><g data-mml-node="mo" transform="translate(792,363) scale(0.707)" data-latex="'"><use data-c="2032" xlink:href="#MJX-36-NCM-V-2032"></use></g></g></g></g></svg></mjx-container><script type="math/tex">R\ XOR \ R'</script>的结果会不会有什么规律分布？通过这个规律能有较大的概率判断F是否产生碰撞，从而开始搜索密钥。</p>
 <p>可能就是带有某种概率分布能判断出来是否碰撞呢？</p>
 <p>&nbsp;</p>
+
+    
+
 
     <footer style="margin-top: 60px; padding-top: 30px; border-top: 1px solid #e8e0d8; text-align: center; color: #a0908d; font-size: 0.85em;">
         <p>&copy; 2026 Zephyr. All rights reserved.</p>
