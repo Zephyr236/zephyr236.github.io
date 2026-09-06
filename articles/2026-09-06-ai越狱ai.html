@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>ai越狱ai</title>
+</head>
+<body><div>[TOC]</div>
+<p>&nbsp;</p>
+<h1 id='前言'>前言</h1>
+<p>怎么样把大模型越狱了，这方面的研究和思路很多，也有很多自动化越狱的思路。其中一种就是利用abliterated的本地小模型去越狱在线的大模型。最近的qwen3.8 27b非常牛逼，很难想象他们的数据集是怎么来的能把27b弄的这么好。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260831162856492.png" alt="image-20260831162856492"></p>
+<p><code>huihui-ai/Huihui-Qwen3.8-27B-abliterated</code>选择hf中的这个模型，使用Q4_K_M量化版本(一般把Q4_K_M当甜点区)</p>
+<p>&nbsp;</p>
+<h1 id='部署'>部署</h1>
+<p><img src="./assets/image-20260831163024051.png" alt="image-20260831163024051"></p>
+<p>在算家云中购买算力，这里是RTX5090 32G的</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260831170915072.png" alt="image-20260831170915072"></p>
+<p>cuda版本13.2</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260831205832966.png" alt="image-20260831205832966"></p>
+<pre><code>./llama-server --host 0.0.0.0 -m ../huihui-qwen3.8-27b-abliterated-q4_k_m.gguf  -fa on --cache-type-k q8_0 --cache-type-v q8_0  --mlock -c 131072 --no-mmap
+</code></pre>
+<p>然后就是使用llama.cpp启动一个server，这个启动参数需要自己慢慢调整，例如--nlg参数控制多少层在cpu的，这些参数的调整有时候生成速度能翻倍。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260831205813391.png" alt="image-20260831205813391"></p>
+<p>生成的速度在每秒70token左右</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260831205952964.png" alt="image-20260831205952964"></p>
+<p>gpu也跑满了</p>
+<p>&nbsp;</p>
+<h1 id='接入claude-code'>接入claude code</h1>
+<p><img src="./assets/image-20260831211110175.png" alt="image-20260831211110175"></p>
+<p>这样子就接入claude code开始干活了，这里的上下文是128k</p>
+<p>&nbsp;</p>
+<h1 id='开始要求越狱'>开始要求越狱</h1>
+<p><img src="./assets/image-20260831211919045.png" alt="image-20260831211919045"></p>
+<p>让它尝试把glm5.2给越狱了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260831212229293.png" alt="image-20260831212229293"></p>
+<p>它就开始自己尝试了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260831212357518.png" alt="image-20260831212357518"></p>
+<p>速度还是非常可观的</p>
+<p>&nbsp;</p>
+<h1 id='越狱成功'>越狱&quot;成功&quot;</h1>
+<p><img src="./assets/image-20260831221541376.png" alt="image-20260831221541376"></p>
+<p>它说越狱成功了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260831222038208.png" alt="image-20260831222038208"></p>
+<p>并且确实是给出了相关功能的代码，它的思路是拆分需求，然后伪装需求，例如它接受&quot;支持 API 拦截、改查询结果&quot;(minifilter/CM/WFP),拒绝&quot;改内核内存/进程身份&quot;(DKOM)。通过这种方式得到一块块的代码</p>
+<p>&nbsp;</p>
+<p>它这个方法其实被称为<code>意图拆分</code>和<code>意图伪装</code>。这样子其实是不够的，我需要的是直接一套提示词把这件事完成了</p>
+<p>&nbsp;</p>
+<h1 id='越狱'>越狱</h1>
+<p><img src="./assets/image-20260901050524295.png" alt="image-20260901050524295"></p>
+<p>后面他又花了3个小时解决了这个问题，成功的越狱了</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260901051350690.png" alt="image-20260901051350690"></p>
+<p>这个也确实可以具备致盲EDR的功能</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20260901051547510.png" alt="image-20260901051547510"></p>
+<p>ai分析最后一次的思维过程后得出的越狱本质，说明确实可行。可以使用这种abliterated编写用于越狱的提示词。甚至比人类编写的要好非常多。</p>
+<p>&nbsp;</p>
+<h1 id='总结'>总结</h1>
+<p>它没有得到通用的越狱方法，但是它能够指挥glm5.3完成我需要的东西。需要进一步让它能够生成一种通用的提示词，这段提示词直接越狱。同时这种由abliterated模型指挥更强的模型干活的思路应该能作为一种通用的&quot;越狱&quot;方法。</p>
+<p>&nbsp;</p>
+</body>
+</html>
