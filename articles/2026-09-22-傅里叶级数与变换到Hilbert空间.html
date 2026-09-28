@@ -1,10 +1,35 @@
 <!doctype html>
 <html>
 <head>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { max-width: 800px; margin: 0 auto; padding: 40px 20px; background: linear-gradient(135deg, #fdfbf7 0%, #faf5f0 100%); min-height: 100vh; }
+        h1, h2, h3 { font-family: 'Lora', Georgia, serif; color: #4a4a4a; }
+        h1 { border-bottom: 2px solid #e8e0d8; padding-bottom: 0.4em; }
+        h2 { border-bottom: 1px solid #e8e0d8; padding-bottom: 0.3em; }
+        a { color: #b8a5a2; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        table th { background-color: #f5efe9; }
+        img { max-width: 100%; height: auto; display: block; margin: 20px auto;}
+        pre { background-color: #faf5f0; padding: 20px; border-radius: 8px; overflow-x: auto; border: 1px solid #e8e0d8; }
+        code { background-color: #f5efe9; padding: 3px 8px; border-radius: 4px; }
+        blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
+        mjx-container { display: block !important; text-align: center !important; margin: 20px auto !important; }
+    </style>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <title>傅里叶级数与变换到Hilbert空间</title>
 </head>
-<body><h1 id='前言'>前言</h1>
+<body>
+
+    <header style="text-align: center; padding: 30px 0; margin-bottom: 30px;">
+        <a href="index.html" class="site-title" style="font-family: 'Lora', Georgia, serif; font-size: 2.2em; color: #5d5d5d; text-decoration: none; letter-spacing: 2px;">Zephyr's Blog</a>
+        <nav style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
+            <a href="../index.html" style="text-decoration: none; color: #8a7f7d;">Home</a>
+            <a href="../about.html" style="text-decoration: none; color: #8a7f7d;">About</a>
+        </nav>
+    </header>
+<h1 id='前言'>前言</h1>
 <p>本篇文章是对小波分析课程中叶老师所讲解的傅里叶级数的复习和拓展一步步推导引出到Hilbert空间的还能，也就是为小波分析学习的一个开头</p>
 <p>&nbsp;</p>
 <p><img src="./assets/image-20260921202731577.png" alt="image-20260921202731577"></p>
@@ -270,5 +295,10 @@
 <p><strong>求和</strong>变成了<strong>积分</strong> <mjx-container class="MathJax" jax="SVG" overflow="overflow" style="position: relative;"><svg xmlns="http://www.w3.org/2000/svg" width="6.38ex" height="2.718ex" role="img" focusable="false" viewBox="0 -845.1 2819.8 1201.5" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" style="vertical-align: -0.806ex;"><defs><path id="MJX-253-NCM-SO-222B" d="M497 805C421 805 370 747 344 630C340 613 335 578 328 526L315 425C301 313 292 230 288 175L269-72C262-169 246-276 168-276C147-276 129-271 114-261C135-255 146-241 146-219C146-192 128-173 101-173C71-173 56-189 56-220C56-273 111-306 168-306C249-306 305-246 335-127C356-43 375 107 391 324L410 571C414 628 421 673 430 705C443 747 452 775 498 775C519 775 537 770 551 760C530 754 519 740 519 718C519 691 537 672 564 672C594 672 609 688 609 719C609 772 554 805 497 805Z"></path><path id="MJX-253-NCM-N-221E" d="M749-11C807-11 855 13 892 60C926 104 943 156 943 216C943 275 926 327 893 371C856 418 809 442 752 442C684 442 625 416 576 364C547 332 524 303 507 278C464 329 435 361 421 373C367 419 310 442 250 442C192 442 144 418 107 371C73 327 56 275 56 215C56 156 73 104 106 60C143 13 190-11 247-11C315-11 374 15 423 67C452 99 475 128 492 153C535 102 564 70 578 58C632 12 689-11 749-11M913 216C913 188 911 168 908 156C903 137 890 117 869 94C840 61 805 44 765 44C722 44 680 67 637 113C592 168 559 209 538 237C601 348 675 403 759 403C852 403 913 314 913 216M86 215C86 260 100 299 128 334C156 369 191 387 234 387C277 387 319 364 362 318C407 263 440 222 461 194C398 83 324 28 240 28C147 28 86 117 86 215Z"></path><path id="MJX-253-NCM-N-30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z"></path><path id="MJX-253-NCM-I-1D451" d="M429 632L370 389C349 426 320 445 281 445C216 445 159 412 109 345C63 283 40 218 40 151C40 63 91-11 175-11C218-11 260 12 300 59C311 21 345-11 392-11C461-11 483 71 498 145C498 154 493 159 483 159C474 159 468 152 465 138C445 59 421 19 394 19C377 19 368 33 368 60C368 75 370 91 374 107L516 679L516 683C513 690 507 694 499 694C476 694 434 690 374 683C363 682 357 674 357 660C357 650 366 645 384 645C403 645 429 646 429 632M341 376C351 355 356 341 356 332C355 328 354 323 353 316L304 122C301 111 294 99 285 87C248 42 212 19 177 19C138 19 118 49 118 108C118 132 124 168 136 216C157 301 187 359 224 390C244 407 263 415 282 415C309 415 329 402 341 376Z"></path><path id="MJX-253-NCM-I-1D714" d="M505 391C505 380 509 370 517 363C542 342 554 314 554 280C554 267 553 255 550 244C530 168 477 68 396 68C344 68 313 96 303 152C316 179 326 207 333 238C336 249 337 258 337 264C337 284 329 294 314 294C276 294 266 198 264 156C227 97 184 68 133 68C78 68 51 104 51 175C51 195 54 216 59 238C70 282 99 337 146 402C150 407 152 412 152 417C152 430 145 437 130 437C123 437 116 434 110 427C61 360 13 242 13 133C13 37 49-11 121-11C178-11 227 22 270 87C284 22 322-11 383-11C416-11 447 2 475 28C522 72 557 142 581 238C596 299 604 342 604 369C604 398 597 419 583 432C576 439 567 442 558 442C532 442 505 417 505 391Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msubsup"><g data-mml-node="mo" transform="translate(0 0.5)"><use data-c="222B" xlink:href="#MJX-253-NCM-SO-222B"></use></g><g data-mml-node="mi" transform="translate(754,532.6) scale(0.707)"><use data-c="221E" xlink:href="#MJX-253-NCM-N-221E"></use></g><g data-mml-node="mn" transform="translate(578,-340.9) scale(0.707)"><use data-c="30" xlink:href="#MJX-253-NCM-N-30"></use></g></g><g data-mml-node="mi" transform="translate(1677.8,0)"><use data-c="1D451" xlink:href="#MJX-253-NCM-I-1D451"></use></g><g data-mml-node="mi" transform="translate(2197.8,0)"><use data-c="1D714" xlink:href="#MJX-253-NCM-I-1D714"></use></g></g></g></svg></mjx-container><script type="math/tex">\int_0^\infty d\omega</script></p>
 <p>&nbsp;</p>
 <p>这里又是一次离散到连续的推广，真的好神奇，基也能从离散推展到连续。</p>
+
+    <footer style="margin-top: 60px; padding-top: 30px; border-top: 1px solid #e8e0d8; text-align: center; color: #a0908d; font-size: 0.85em;">
+        <p>&copy; 2026 Zephyr. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
