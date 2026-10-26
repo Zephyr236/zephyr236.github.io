@@ -17,6 +17,22 @@
         blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
         mjx-container { display: block !important; text-align: center !important; margin: 20px auto !important; }
     </style>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { max-width: 800px; margin: 0 auto; padding: 40px 20px; background: linear-gradient(135deg, #fdfbf7 0%, #faf5f0 100%); min-height: 100vh; }
+        h1, h2, h3 { font-family: 'Lora', Georgia, serif; color: #4a4a4a; }
+        h1 { border-bottom: 2px solid #e8e0d8; padding-bottom: 0.4em; }
+        h2 { border-bottom: 1px solid #e8e0d8; padding-bottom: 0.3em; }
+        a { color: #b8a5a2; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        table th { background-color: #f5efe9; }
+        img { max-width: 100%; height: auto; display: block; margin: 20px auto;}
+        pre { background-color: #faf5f0; padding: 20px; border-radius: 8px; overflow-x: auto; border: 1px solid #e8e0d8; }
+        code { background-color: #f5efe9; padding: 3px 8px; border-radius: 4px; }
+        blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
+        mjx-container { display: block !important; text-align: center !important; margin: 20px auto !important; }
+    </style>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <title>离散傅里叶变换与测不准原理到haar小波</title>
 </head>
@@ -29,6 +45,9 @@
             <a href="../about.html" style="text-decoration: none; color: #8a7f7d;">About</a>
         </nav>
     </header>
+
+
+    
 <h1 id='前言'>前言</h1>
 <p>之前从傅里叶基一直推导到了傅里叶变换以及引出了Hilbert空间的概念，接下来我们沿着之前的主线继续学习，主要是理解思想，尽量将这些知识更加直观的去理解，原课本实在太抽象了，将会跳过一些内容。</p>
 <p>&nbsp;</p>
@@ -275,6 +294,9 @@
 <p>&nbsp;</p>
 <h1 id='总结'>总结</h1>
 <p>我们从采样定理出发开始思考离散的点如果保留原始信号的信息，到如何对离散的函数进行傅里叶变换的处理，同时发现测不准原理，由从则不准原理发现寻找平衡，如何再频率和时间中平衡一下得到两者的信息，提出了短时傅里叶变换的窗口思想，进而有继续改进提出来变化的窗口的思想最终引出haar小波。</p>
+
+    
+
 
     <footer style="margin-top: 60px; padding-top: 30px; border-top: 1px solid #e8e0d8; text-align: center; color: #a0908d; font-size: 0.85em;">
         <p>&copy; 2026 Zephyr. All rights reserved.</p>
