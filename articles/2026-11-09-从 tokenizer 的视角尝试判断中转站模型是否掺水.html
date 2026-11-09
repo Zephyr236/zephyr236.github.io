@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>从 tokenizer 的视角尝试判断中转站模型是否掺水</title>
+</head>
+<body><h1 id='从-tokenizer-的视角尝试判断中转站模型是否掺水'>从 tokenizer 的视角尝试判断中转站模型是否掺水</h1>
+<div>[TOC]</div>
+<p>&nbsp;</p>
+<h1 id='前言'>前言</h1>
+<p>为了降本增效开始尝试购买中转站的模型来完成一些agent任务，如何判断中转站是否&quot;掺水&quot;就是需要思考的问题。目前我采用的方式是跑公开的benchmark以官方为基线来判断能力是否足够。但是也有可能中转站提前防了这手公开的benchmark提取做了优化。自己也闭源的构造了benchmark，但是需要设计的足够分层还是挺复杂的。于是还需要找到其他的角度，综合的判断。于是我想起来了tokenizer。</p>
+<p>&nbsp;</p>
+<h1 id='tokenizer的差异判断模型'>tokenizer的差异判断模型</h1>
+<p>不同的模型tokenizer的结果是不同的，但是我们只能调用api，如何知道模型内部的tokenizer？</p>
+<p>也很简单，调用api会告诉你input tokens</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261107141837529.png" alt="image-20261107141837529"></p>
+<p>例如这个，我们能得到输入多少</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261107142145248.png" alt="image-20261107142145248"></p>
+<p>如果是空输入，默认是30tokens</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261107142257458.png" alt="image-20261107142257458"></p>
+<p>我们输入1，得到input tokens是31token，说明1被tokenizer成了一个token，这样子我们就能通过调用api的形式增量计算出来内部tokenizer的结果。</p>
+<p>&nbsp;</p>
+<h1 id='构造差异'>构造差异</h1>
+<p>接下来我们的思路就很清晰了，去huggingface上下载tokenizer的文件，然后对比主流开源模型的tokenizer的差异，找到tokenizer差异最大的那部分来区分是什么模型。</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261107143434498.png" alt="image-20261107143434498"></p>
+<p>例如deepseek的tokenizer在这里可以下载</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261107143629605.png" alt="image-20261107143629605"></p>
+<p>这样子我们就能看到deepseek是如何分词的了，接下来就开始尝试寻找分词差异最大的字符。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 id='差异统计'>差异统计</h1>
+<p><img src="./assets/image-20261108152029690.png" alt="image-20261108152029690"></p>
+<p>例如这种比较长但是被deepseek v3算作一个token，右边显示的是字节所以看起来是乱码，解码后就是&quot;中国特色社会主义&quot;</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261108154744106.png" alt="image-20261108154744106"></p>
+<p>DeepSeek-V3为例子，空输入被算作3个token，加了&quot;中国特色社会主义&quot;，变成4个token了。说明新增的部分被算做1个token</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261108154808358.png" alt="image-20261108154808358"></p>
+<p>Qwen3-8B，空输入是8 tokens</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261108154855334.png" alt="image-20261108154855334"></p>
+<p>新增后就是10token了，也就是说Qwen3-8B把&quot;中国特色社会主义&quot;当成2个token</p>
+<p>&nbsp;</p>
+<p><img src="./assets/image-20261108154939560-1794124179881-3.png" alt="image-20261108154939560"></p>
+<p>和tokenizer出来的词表结果是一致的</p>
+<p>&nbsp;</p>
+<h1 id='决策树'>决策树</h1>
+<p>由此我们就能想决策数一样，在词表中找出一些差异，例如某一段prompt ABC模型算作1个token，EFG模型算作2个token，于是乎我们就能派出ABC模型的可能，然后进一步在EFG中构造差异来分出属于哪个家族的模型。</p>
+<p>&nbsp;</p>
+<p>代码仓库：<a href='https://github.com/Zephyr236/tokenizer-fingerprint' target='_blank' class='url'>https://github.com/Zephyr236/tokenizer-fingerprint</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 id='局限性'>局限性</h1>
+<p>这个只能是用来判断的其中一种特征，并且闭源模型的tokenizer还要自己买api自己请求记录。如果tokenizer的角度符合也只能说明是同一个家族的，不能说明没有量化或者替换同家族。但是如果tokenizer出来的词表都不符合，那一定就是假的。</p>
+</body>
+</html>
