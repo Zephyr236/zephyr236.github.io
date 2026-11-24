@@ -1,10 +1,35 @@
 <!doctype html>
 <html>
 <head>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { max-width: 800px; margin: 0 auto; padding: 40px 20px; background: linear-gradient(135deg, #fdfbf7 0%, #faf5f0 100%); min-height: 100vh; }
+        h1, h2, h3 { font-family: 'Lora', Georgia, serif; color: #4a4a4a; }
+        h1 { border-bottom: 2px solid #e8e0d8; padding-bottom: 0.4em; }
+        h2 { border-bottom: 1px solid #e8e0d8; padding-bottom: 0.3em; }
+        a { color: #b8a5a2; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        table th, table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        table th { background-color: #f5efe9; }
+        img { max-width: 100%; height: auto; display: block; margin: 20px auto;}
+        pre { background-color: #faf5f0; padding: 20px; border-radius: 8px; overflow-x: auto; border: 1px solid #e8e0d8; }
+        code { background-color: #f5efe9; padding: 3px 8px; border-radius: 4px; }
+        blockquote { border-left: 3px solid #d4c4c0; margin: 25px 0; padding: 15px 25px; background-color: #faf5f0; border-radius: 0 8px 8px 0; }
+        mjx-container { display: block !important; text-align: center !important; margin: 20px auto !important; }
+    </style>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <title>sleepmask is all you need</title>
 </head>
-<body><h1 id='sleepmask-is-all-you-need'>sleepmask is all you need</h1>
+<body>
+
+    <header style="text-align: center; padding: 30px 0; margin-bottom: 30px;">
+        <a href="index.html" class="site-title" style="font-family: 'Lora', Georgia, serif; font-size: 2.2em; color: #5d5d5d; text-decoration: none; letter-spacing: 2px;">Zephyr's Blog</a>
+        <nav style="display: flex; justify-content: center; gap: 30px; margin-top: 20px;">
+            <a href="../index.html" style="text-decoration: none; color: #8a7f7d;">Home</a>
+            <a href="../about.html" style="text-decoration: none; color: #8a7f7d;">About</a>
+        </nav>
+    </header>
+<h1 id='sleepmask-is-all-you-need'>sleepmask is all you need</h1>
 <h2 id='sleepmask'>sleepmask</h2>
 <p>sleepmask一种内存规避技术，只需要通过简单的hook就能实现内存规避但目前最原始的sleepmask技术已经无法继续免杀。</p>
 <p>如果我们不想对shellcode做任何修改，又想实现免杀的效果则可用尝试选择内存规避技术，主流的内存规避技术有如下几种。</p>
@@ -92,5 +117,10 @@
 <li>组合其他各种各样的技术，sleepmask的兼容性很好，因为实现比较简单。</li>
 
 </ol>
+
+    <footer style="margin-top: 60px; padding-top: 30px; border-top: 1px solid #e8e0d8; text-align: center; color: #a0908d; font-size: 0.85em;">
+        <p>&copy; 2026 Zephyr. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
