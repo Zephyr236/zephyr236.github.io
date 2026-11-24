@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>sleepmask is all you need</title>
+</head>
+<body><h1 id='sleepmask-is-all-you-need'>sleepmask is all you need</h1>
+<h2 id='sleepmask'>sleepmask</h2>
+<p>sleepmask一种内存规避技术，只需要通过简单的hook就能实现内存规避但目前最原始的sleepmask技术已经无法继续免杀。</p>
+<p>如果我们不想对shellcode做任何修改，又想实现免杀的效果则可用尝试选择内存规避技术，主流的内存规避技术有如下几种。</p>
+<ol start='' >
+<li>虚拟指令集，思路与虚拟壳类似，但是不需要实现完整的虚拟壳思路，只需要虚拟指令集就行了。但如果是要把指定的shellcode翻译成自己定义的虚拟指令集还是有些难度的，如果是自己定义自己开发恶意代码，可以不断切换虚拟指令集来达到内存规避的效果。</li>
+<li>利用已有的解释器，例如lua，或者LLVM，做到每次执行代码不一样但是功能一样。</li>
+<li>利用硬件断点，实现类似单步调试的功能，仅仅解密当前将要&quot;调试&quot;的代码。（这个对shellcode和代码有要求）</li>
+<li>sleepmask，成本比较低，比较灵活的一种方式，但是特征很明显。</li>
+<li>EKKO，我个人感觉这个特征过于明显。</li>
+
+</ol>
+<p>以上的思路基本上都尝试过，最终发现sleepmask有一个其他思路都没有的优点，sleepmask能划分执行周期，每次sleep都意味着是一个完整的执行周期，这也就意味着你只要是在sleep执行后，进行操作不会对原本的恶意代码逻辑产生影响。通过这一点是可以将上面提到的思路组合的。</p>
+<h2 id='改进'>改进</h2>
+<p>下面是我对sleepmask一步步的探索和改进。</p>
+<ol start='' >
+<li>从hook sleep改为hook GetProcaddress</li>
+<li>每次sleep后生成新的key，确保每次休眠后内存都不一样</li>
+<li>修改sleep的方式，使用其他带有休眠功能的函数</li>
+<li>在sleep中加入大量的随机代码，确保每次sleep执行的都是完全不同的路径</li>
+<li>在sleep中加入堆栈欺骗，让其看起来是在系统模块中运行</li>
+<li>用纤程轮换代替sleep</li>
+<li>不仅仅hook sleep,对其他api同样进行类似操作。</li>
+<li>尝试在每一行插入断点异常(成功插入但无法正常运行)</li>
+<li>尝试将每一个shellcode的函数hook，仅仅解密将要调用的函数(成功hook所有函数，但无法完美运行，最终变成删去&quot;无用&quot;函数)</li>
+<li>捕获杀毒软件的特征选择可能较为安全的时间苏醒。</li>
+<li>将sleepmask从线程休眠转为&quot;进程&quot;休眠</li>
+
+</ol>
+<h2 id='准备工作'>准备工作</h2>
+<p>目前主流的sleepmask主要都是将线程休眠，如果我们能让其进程休眠会怎么样？如果把进程关了等beacon需要和c2通信的时候在启动进程是否就能很大程度上规避扫描？</p>
+<h3 id='进程树'>进程树</h3>
+<p>如果要实现这样效果，必然还需要另一个进程负责唤醒，但是这个进程不携带任何恶意代码，。</p>
+<p>在编写温馨守护的时候，会发现如果杀毒软件检测到有进程相互守护会直接一起把整个进程树都给杀了。</p>
+<p>这个问题也很好解决，守护进程执行一连串的bat脚本，最终由最后一个bat脚本去执行被守护进程，同时每一个脚本启动下一个脚本后就自我结束然后自删除，因为bat脚本自我结束进程树不会直接继承，根据测试如果10多个一连串的bat脚本这样去操作就不会导致守护进程被杀了。</p>
+<p>这个思路同样可以应用在sleepmask中。</p>
+<h3 id='异进程同会话'>异进程同会话</h3>
+<p>关闭启动进程来规避内存应该是有人尝试过了，这个思路也不难想到。以cobalt strike为例子</p>
+<p>如果在同一个机器上多次运行beacon，每一个beacon都是一个单独的session显示在client端。如果有办法能做到指定beacon续上某一个session好了。</p>
+<h2 id='进程休眠'>进程休眠</h2>
+<h3 id='metadata'>metadata</h3>
+<p><img src="assets/01-beacon-metadata.png" alt="beacon 心跳包 metadata"></p>
+<p>每一个beacon的心跳包都会携带这样的一个metadata，其中约定了密钥和bid(beacon session id)</p>
+<p>所以我们的目标一下子就变得清晰了，找到bid和rawkey怎么来的，然后把它给改了。</p>
+<p>&nbsp;</p>
+<h3 id='分析'>分析</h3>
+<p>经过长达3个小时的分析，我最终是放弃了，实在太乱了。</p>
+<p>后面思考了一下发现其实没有必要去逆向分析，因为shellcode是写死的，每次session不一样的原因是随机数，每次rawkey不一样的原因也是随机数。</p>
+<p>不需要考虑这些随机数最终经过了哪些操作，因为shellcode是死的。只要控制了随机数的产生，那么所有的一切就都写死的了。</p>
+<p>&nbsp;</p>
+<p><img src="assets/02-hook-getprocaddress-code.png" alt="hook GetProcAddress 的代码"></p>
+<p>shellcode如果是调用winapi，必然离不开GetProcaddress。于是把它hook了打印所有查询的api</p>
+<p>&nbsp;</p>
+<p><img src="assets/03-getprocaddress-api-log.png" alt="GetProcAddress 调用日志"></p>
+<p>一眼就看到最耀眼的它。于是马上把它也hook了</p>
+<p>&nbsp;</p>
+<p><img src="assets/04-hook-cryptgenrandom-code.png" alt="hook CryptGenRandom 的代码"></p>
+<p>这样就hook掉了</p>
+<p>&nbsp;</p>
+<p><img src="assets/05-cryptgenrandom-log.png" alt="CryptGenRandom 调用日志"></p>
+<p>思路一下子就打开了，长度4和16一看就是beaconid和rawkey。</p>
+<p>&nbsp;</p>
+<p><img src="assets/06-cryptgenrandom-switch-code.png" alt="按 dwLen 替换随机数的代码"></p>
+<p>最终测试只要控制这两个随机数即可。另一个长度33的随机数我没有花时间测试具体的效果。</p>
+<p>&nbsp;</p>
+<h2 id='效果'>效果</h2>
+<p><img src="assets/07-beacon-session-table.png" alt="beacon 会话列表（last 4m）"></p>
+<p>一个last是4m的beacon</p>
+<p>&nbsp;</p>
+<p><img src="assets/08-cryptgenrandom-modified-log.png" alt="随机数被替换后的日志"></p>
+<p>通过控制随机数</p>
+<p>&nbsp;</p>
+<p><img src="assets/09-beacon-session-resumed.png" alt="续接会话后的 beacon 列表（pid 已变化）"></p>
+<p>又重新续上原先的seesion了，pid也变了</p>
+<p>&nbsp;</p>
+<p><img src="assets/10-beacon-session-check.png" alt="续接会话后的任务执行情况"></p>
+<p>续上seesion后，第一次下发的命令不会被执行，第二次就回复正常了。这个问题可以使用第一次sleep一秒，也就是连发两次心跳包解决。</p>
+<p>&nbsp;</p>
+<h2 id='总结'>总结</h2>
+<p>这种方式不仅仅可以针对cs的shellcode所有的shellcode只要是正常方式产生的随机数都能达到一样的效果。</p>
+<p>应该尝试把这种思路作为一个组件和其他技术组合出各种各样的效果，例如：</p>
+<ol start='' >
+<li>曾经写过一个自动将shellcode感染白名单文件工具，结合如上的进程休眠，做到每次执行不同代码。</li>
+<li>配合自动挖掘白加黑的工具，可以做到每隔半个小时更换不同的白加黑加载器</li>
+<li>根据测试，python脚本每次随机生成至少10万个垃圾函数，相互深度递归调用，随机命中shellcode编译出来的exe，可以做到半小时内都是免杀的。将代码开源了，过了5个月依然有效微步全绿。最终可以做到每次使用最新编译的加载器。</li>
+<li>组合其他各种各样的技术，sleepmask的兼容性很好，因为实现比较简单。</li>
+
+</ol>
+</body>
+</html>
